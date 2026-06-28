@@ -1,0 +1,269 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NutriPlan - Food, Nutrition & Fitness Planner</title>
+    <link rel="icon" href="./src/images/favicon.png" />
+    <script>
+      window.FontAwesomeConfig = { autoReplaceSvg: "nest" };
+    </script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/js/all.min.js"
+      integrity="sha512-6BTOlkauINO65nLhXhthZMtepgJSghyimIalb+crKRPhvhmsCdnIuGcVbR5/aQY2A+260iC1OPy1oCdB6pSSwQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/ajax/libs/sweetalert2@11"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.plot.ly/plotly-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="./src/css/index.css" />
+    <link rel="stylesheet" href="./src/css/style.css" />
+  </head>
+  <body class="bg-gray-50 font-sans">
+    <!-- Loading Overlay -->
+    <div
+      id="app-loading-overlay"
+      class="loading fixed inset-0 bg-white z-[100] flex items-center justify-center transition-opacity duration-500"
+    >
+      <div class="text-center">
+        <div class="relative w-20 h-20 mx-auto mb-6">
+          <div
+            class="absolute inset-0 rounded-xl bg-linear-to-br from-emerald-400 to-teal-600 animate-pulse"
+          ></div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <i class="fa-solid fa-leaf text-white text-3xl animate-bounce"></i>
+          </div>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">NutriPlan</h2>
+        <p class="text-gray-500 mb-4">Loading your wellness journey...</p>
+        <div class="flex items-center justify-center gap-1">
+          <div
+            class="w-2 h-2 bg-emerald-500 rounded-full animate-bounce"
+            style="animation-delay: 0ms"
+          ></div>
+          <div
+            class="w-2 h-2 bg-emerald-500 rounded-full animate-bounce"
+            style="animation-delay: 150ms"
+          ></div>
+          <div
+            class="w-2 h-2 bg-emerald-500 rounded-full animate-bounce"
+            style="animation-delay: 300ms"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar Overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <div
+      id="sidebar"
+      class="fixed left-0 top-0 h-full w-72 bg-white border-r border-gray-200 flex flex-col z-40"
+    >
+      <div class="p-6 border-b border-gray-100">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 rounded-xl bg-linear-to-br from-emerald-400 to-teal-600 flex items-center justify-center"
+          >
+            <i class="fa-solid fa-leaf text-white text-lg"></i>
+          </div>
+          <div>
+            <h1 class="text-xl font-bold text-gray-900">NutriPlan</h1>
+            <p class="text-xs text-gray-500">Your Wellness Journey</p>
+          </div>
+          <button id="sidebar-close-btn" aria-label="Close menu">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <nav class="flex-1 px-4 py-6 overflow-y-auto">
+        <div class="mb-6">
+          <p
+            class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3"
+          >
+            Main Menu
+          </p>
+          <ul class="space-y-1">
+            <li>
+              <a
+                class="nav-link flex items-center gap-3 px-3 py-2.5 bg-emerald-50 text-emerald-700 rounded-lg transition-all"
+                href="/index.html"
+              >
+                <i class="fa-solid fa-utensils w-5"></i>
+                <span class="font-semibold">Meals & Recipes</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="nav-link flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg transition-all"
+                href="/products.html"
+              >
+                <i class="fa-solid fa-barcode w-5"></i>
+                <span class="font-medium">Product Scanner</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="nav-link flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg transition-all"
+                href="/foodlog.html"
+              >
+                <i class="fa-solid fa-clipboard-list w-5"></i>
+                <span class="font-medium">Food Log</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="p-4 border-t border-gray-200">
+        <div class="flex items-center gap-3 px-3">
+          <img
+            src="https://randomuser.me/api/portraits/men/32.jpg"
+            alt="User"
+            class="w-10 h-10 rounded-full object-cover"
+          />
+          <div class="flex-1">
+            <p class="font-semibold text-gray-900 text-sm">Youssef Amir</p>
+            <p class="text-xs text-gray-500">Premium Member</p>
+          </div>
+          <i class="fa-solid fa-chevron-down text-gray-400 text-sm"></i>
+        </div>
+      </div>
+    </div>
+
+    <div id="main-content" class="ml-72">
+      <header
+        id="header"
+        class="bg-white border-b border-gray-200 sticky top-0 z-30"
+      >
+        <div class="px-8 py-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4 flex-1">
+              <button id="header-menu-btn" aria-label="Toggle menu">
+                <i class="fa-solid fa-bars"></i>
+              </button>
+              <div>
+                <h1 class="text-2xl font-bold text-gray-900">
+                  Meals & Recipes
+                </h1>
+                <p class="text-sm text-gray-500 mt-1">
+                  Discover delicious and nutritious recipes tailored for you
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section
+        id="search-filters-section"
+        class="px-8 py-6 bg-white border-b border-gray-200"
+      >
+        <div class="mx-auto">
+          <div class="mb-6">
+            <div class="relative w-full">
+              <i
+                class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+              ></i>
+              <input
+                id="search-input"
+                type="text"
+                placeholder="Search recipes by name, ingredient, or cuisine..."
+                class="w-full pl-12 pr-4 py-3.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-sm"
+              />
+            </div>
+          </div>
+
+          <div id="areas" class="flex items-center gap-3 overflow-x-auto pb-2">
+            <button
+              class="px-4 py-2 bg-emerald-600 text-white rounded-full font-medium text-sm whitespace-nowrap hover:bg-emerald-700 transition-all"
+            >
+              All Recipes
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="meal-categories-section" class="px-8 py-6 bg-white">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h2 class="text-xl font-bold text-gray-900">
+                Browse by Meal Type
+              </h2>
+              <p class="text-xs text-gray-500 mt-0.5">
+                Find the perfect recipe for any time of day
+              </p>
+            </div>
+            <button
+              class="text-emerald-600 font-medium text-sm hover:text-emerald-700 flex items-center gap-1"
+            >
+              View All <i class="fa-solid fa-chevron-right text-xs"></i>
+            </button>
+          </div>
+
+          <div id="categories-grid" class="grid grid-cols-6 gap-3">
+            <!-- Categories will be loaded here by JavaScript -->
+            <div
+              class="category-card bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-3 border border-emerald-400 shadow-md cursor-pointer transition-all group"
+              data-category="Beef"
+            >
+              <div class="flex items-center gap-2.5">
+                <div
+                  class="text-white w-9 h-9 bg-gradient-to-br from-emerald-400 to-green-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm"
+                >
+                  <i class="fa-solid fa-drumstick-bite"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-bold text-gray-900">All Recipes</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="all-recipes-section" class="px-8 py-8 bg-gray-50">
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h2 class="text-2xl font-bold text-gray-900">All Recipes</h2>
+              <p id="recipes-count" class="text-sm text-gray-600 mt-1"></p>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="flex bg-gray-200 rounded-lg p-1" id="view-toggle">
+                <button
+                  id="grid-view-btn"
+                  class="px-3 py-1.5 bg-white rounded-md shadow-sm"
+                  title="Grid View"
+                >
+                  <i class="fa-solid fa-table-cells text-gray-700"></i>
+                </button>
+                <button
+                  id="list-view-btn"
+                  class="px-3 py-1.5"
+                  title="List View"
+                >
+                  <i class="fa-solid fa-list text-gray-500"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div id="recipes-grid" class="grid grid-cols-4 gap-5"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Main JavaScript Entry Point -->
+    <script type="module" src="./src/js/main.js"></script>
+    <script type="module" src="./src/js/ui/components.js"></script>
+  </body>
+</html>
